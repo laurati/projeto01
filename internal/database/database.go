@@ -1,6 +1,7 @@
 package database
 
 import (
+	"context"
 	"log"
 	"sync"
 
@@ -13,7 +14,7 @@ var (
 )
 
 // Singleton design pattern for creating and providing a single database connection instance
-func ConnectDatabase(dialector gorm.Dialector) *gorm.DB {
+func ConnectDatabase(ctx context.Context, dialector gorm.Dialector) *gorm.DB {
 	lock.Lock()
 	defer lock.Unlock()
 
