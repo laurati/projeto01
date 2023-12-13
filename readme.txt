@@ -1,6 +1,54 @@
-O Amazon S3 é um serviço de armazenamento de objetos que armazena dados como objetos em buckets. 
-Um objeto é um arquivo e quaisquer metadados que descrevam o arquivo. Um bucket é um contêiner de objetos.
+# Bundles Application
 
-Para armazenar seus dados no Amazon S3, crie um bucket e especifique um nome de bucket e a Região da AWS. 
-Em seguida, carregue seus dados para esse bucket como objetos no Amazon S3. 
-Cada objeto tem uma chave (ou nome de chave), que é um identificador exclusivo do objeto no bucket.
+The Bundles application is an application that allows companies to store sets of bundles in a database and retrieve them according to the specific version.
+
+## Functionalities
+
+- Bundles creation
+- Query bundles
+- Query a bundle by ID
+
+## Prerequisites
+
+- Docker
+- Docker-compose
+
+## Installation
+
+Clone this repository:
+```shell
+git clone https://github.com/laurati/projeto01.git
+```
+
+## Running Bundles Application
+1. Navigate to the application repository:
+```shell
+cd projeto01
+```
+
+2. Inside the repository in root, execute the command:
+```shell
+docker-compose up -d
+```
+
+The database and the application will be running on ports 5432 and 8080, respectively
+
+## Usage
+
+### Routes
+
+
+Method | Endpoint | Description
+------ |--------- | -----------
+GET    | /        | Check if application is running
+POST   | /bundledetails | Create a new bundle detail
+GET    | /bundledetails | Query bundle details
+GET    | /bundledetails/{id} | Query a bundle detail by ID
+POST   | /bundledetails/file | Send to S3 a file with all bundle details 
+
+## Aamazon S3
+
+The Amazon S3 is an object storage service that stores data as objects in buckets. An object is a file and any metadata describing the file. A bucket is a container for objects.
+
+To store your data in Amazon S3, create a bucket and specify a bucket name and the AWS Region. Then, upload your data to that bucket as objects in Amazon S3.
+Each object has a key (or key name), which is a unique identifier for the object in the bucket
