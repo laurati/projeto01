@@ -7,6 +7,7 @@ The Bundles application is an application that allows companies to store sets of
 - Bundles creation
 - Query bundles
 - Query a bundle by ID
+- Send to S3 a file with all bundle details
 
 ## Prerequisites
 
@@ -31,6 +32,11 @@ cd projeto01
 docker-compose up -d
 ```
 
+3. Inside the repository in root, execute the command:
+```shell
+go run cmd/api/main.go
+```
+
 The database and the application will be running on ports 5432 and 8080, respectively
 
 ## Usage
@@ -46,7 +52,7 @@ GET    | /bundledetails | Query bundle details
 GET    | /bundledetails/{id} | Query a bundle detail by ID
 POST   | /bundledetails/file | Send to S3 a file with all bundle details 
 
-## Aamazon S3
+## Amazon S3
 
 The Amazon S3 is an object storage service that stores data as objects in buckets. An object is a file and any metadata describing the file. A bucket is a container for objects.
 
