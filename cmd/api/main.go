@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 	"os"
 
 	"github.com/laurati/projeto01/internal/configuration"
@@ -17,11 +18,13 @@ import (
 func main() {
 
 	configuration.EnvironmentSetup()
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+	log.Printf("Server Port: %v", os.Getenv("PORT"))
+	log.Println("Starting process API...")
 
-	dbPostgres := database.ConnectDatabase(ctx, postgres.Open(configuration.GetPostgresConnectionString()))
+	postgresDsn := configuration.GetPostgresConnectionString()
+	dbPostgres := database.ConnectDatabase(ctx, postgres.Open(postgresDsn))
 	database.Migrate(dbPostgres)
 
 	repo := repository.NewDetailsRepo(dbPostgres)
