@@ -24,3 +24,7 @@ type Details struct {
 	Version    int64
 	BundleType string
 }
+
+func (Details) TableName() string {
+	return "bundle_details"
+}

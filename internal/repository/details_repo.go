@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/laurati/projeto01/internal/domain"
+	"github.com/laurati/projeto01/internal/entity"
 	"gorm.io/gorm"
 )
 
@@ -18,9 +18,9 @@ func NewDetailsRepo(DB *gorm.DB) *DetailsRepo {
 	return &DetailsRepo{DB}
 }
 
-func (b *DetailsRepo) Create(ctx context.Context, bundleDetailsDtoInput *domain.DetailsDtoInput) (map[string]interface{}, error) {
+func (b *DetailsRepo) CreateBundleDetails(ctx context.Context, bundleDetailsDtoInput *entity.DetailsDtoInput) (map[string]interface{}, error) {
 
-	bundleDetails := domain.Details{
+	bundleDetails := entity.Details{
 		Version:    bundleDetailsDtoInput.Version,
 		BundleType: bundleDetailsDtoInput.BundleType,
 		CreatedBy:  bundleDetailsDtoInput.CreatedBy,

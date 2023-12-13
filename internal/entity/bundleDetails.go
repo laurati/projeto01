@@ -1,4 +1,4 @@
-package domain
+package entity
 
 import (
 	"log"
@@ -15,6 +15,10 @@ type Details struct {
 	Status     string
 	CreatedBy  string
 	CreatedAt  time.Time
+}
+
+func (Details) TableName() string {
+	return "bundle_details"
 }
 
 func (d *Details) BeforeCreate(tx *gorm.DB) (err error) {
