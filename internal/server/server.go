@@ -1,7 +1,14 @@
 package server
 
 import (
+	"context"
+	"errors"
+	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,11 +16,6 @@ import (
 type Server struct {
 	Address string
 	Router  *gin.Engine
-}
-
-type HandlerDetails struct {
-	HttpMethod string
-	Handler    gin.HandlerFunc
 }
 
 func NewServer(address string, router *gin.Engine) *Server {
@@ -24,10 +26,29 @@ func NewServer(address string, router *gin.Engine) *Server {
 }
 
 func (s *Server) Start() {
-	srv := &http.Server{
+
+	server := &http.Server{
 		Addr:    s.Address,
 		Handler: s.Router,
 	}
-	// TODO:Lógica para iniciar o servidor
-	srv.ListenAndServe()
+
+	go func() {
+		if err := server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("HTTP server error: %v", err)
+		}
+		log.Println("Stopped serving new connections.")
+	}()
+
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	<-sigChan
+
+	shutdownCtx, shutdownRelease := context.WithTimeout(context.Background(), 10*time.Second)
+	defer shutdownRelease()
+
+	if err := server.Shutdown(shutdownCtx); err != nil {
+		log.Fatalf("HTTP shutdown error: %v", err)
+	}
+	log.Println("Graceful shutdown complete.")
+
 }
